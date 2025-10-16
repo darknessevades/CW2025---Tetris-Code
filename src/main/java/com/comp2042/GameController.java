@@ -37,7 +37,7 @@ public class GameController implements InputEventListener {
             if (clearRow.getLinesRemoved() > 0) { // for rows cleared add scores
                 board.getScore().add(clearRow.getScoreBonus());
             }
-            if (!board.createNewBrick()) { // creates a new piece
+            if (board.createNewBrick()) { // creates a new piece
                 viewGuiController.gameOver();
             }
 
