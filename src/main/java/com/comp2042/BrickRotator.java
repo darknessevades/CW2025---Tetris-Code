@@ -8,8 +8,7 @@ public class BrickRotator {
     private int currentShape = 0;
 
     public NextShapeInfo getNextShape() {
-        int nextShape = currentShape;
-        nextShape = (++nextShape) % brick.getShapeMatrix().size();
+        int nextShape = (currentShape + 1) % brick.getShapeMatrix().size();
         return new NextShapeInfo(brick.getShapeMatrix().get(nextShape), nextShape);
     }
 
