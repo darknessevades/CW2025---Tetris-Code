@@ -19,6 +19,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+import javafx.scene.shape.Line;
 import javafx.util.Duration;
 import javafx.scene.control.Label;
 import java.net.URL;
@@ -46,11 +47,10 @@ public class GuiController implements Initializable {
     private Label scoreLabel; // Scoreboard
 
     @FXML
-    private Label pauseLabel; // Pause logic
+    private Label pauseLabel; // Pause screen
 
-
-
-
+    @FXML
+    private Label linesLabel; // Danger Line Indicator
 
 
     private Rectangle[][] displayMatrix; // For the background / locked pieces
@@ -60,6 +60,8 @@ public class GuiController implements Initializable {
     private Rectangle[][] rectangles; // Current rectangle pieces
 
     private Timeline timeLine; // Controls auto falling
+
+    private Line dangerLine; // Add the danger line
 
     private final BooleanProperty isPause = new SimpleBooleanProperty();
 
@@ -108,6 +110,7 @@ public class GuiController implements Initializable {
         gameOverPanel.setVisible(false);
 
         // Potential BUG : This is created but never applied to any UI element?
+        // Fix :
         final Reflection reflection = new Reflection();
         reflection.setFraction(0.8);
         reflection.setTopOpacity(0.9);
@@ -116,6 +119,15 @@ public class GuiController implements Initializable {
     // Creates the background grid
     public void initGameView(int[][] boardMatrix, ViewData brick) {
         displayMatrix = new Rectangle[boardMatrix.length][boardMatrix[0].length];
+
+        // Addition of danger line at row 2
+        dangerLine = new Line(0, 0, boardMatrix[0].length * BRICK_SIZE, 0);
+        dangerLine.setStroke(Color.RED);
+        dangerLine.setStrokeWidth(2);
+        dangerLine.setOpacity(0.5);
+        dangerLine.getStrokeDashArray().addAll(5d, 5d);
+        gamePanel.add(dangerLine, 0, 3, boardMatrix[0].length, 1);
+
         for (int i = 2; i < boardMatrix.length; i++) { // top row is hidden as that's where the blocks spawn, BUT danger zone is not indicated?
             for (int j = 0; j < boardMatrix[i].length; j++) {
                 Rectangle rectangle = new Rectangle(BRICK_SIZE, BRICK_SIZE);
