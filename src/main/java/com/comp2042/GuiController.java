@@ -45,6 +45,11 @@ public class GuiController implements Initializable {
     @FXML
     private Label scoreLabel; // Scoreboard
 
+    @FXML
+    private Label pauseLabel; // Pause logic
+
+
+
 
 
 
@@ -70,6 +75,13 @@ public class GuiController implements Initializable {
         gamePanel.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {
+                // Add the pause toggle "P" to keyboard inputs
+                if (keyEvent.getCode() == KeyCode.P) {
+                    togglePause();
+                    keyEvent.consume();
+                    return;
+                }
+
                 if (isPause.getValue() == Boolean.FALSE && isGameOver.getValue() == Boolean.FALSE) {
                     if (keyEvent.getCode() == KeyCode.LEFT || keyEvent.getCode() == KeyCode.A) {
                         refreshBrick(eventListener.onLeftEvent(new MoveEvent(EventType.LEFT, EventSource.USER)));
@@ -247,7 +259,24 @@ public class GuiController implements Initializable {
     }
 
     // Pause Game function, BUG : Completely Empty, can't pause !
+    // FIX: Implement the pause function
     public void pauseGame(ActionEvent actionEvent) {
+        togglePause();
+    }
+
+    private void togglePause() {
+        isPause.setValue(!isPause.getValue());
+        if (isPause.getValue()) {
+            timeLine.pause();
+            if (pauseLabel != null) {
+                pauseLabel.setText("PAUSED");
+            }
+        } else {
+            timeLine.play();
+            if (pauseLabel != null) {
+                pauseLabel.setText("");
+            }
+        }
         gamePanel.requestFocus();
     }
 }
