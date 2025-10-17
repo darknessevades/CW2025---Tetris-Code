@@ -6,8 +6,28 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
 <?import java.net.URL?>
-<Pane fx:controller="com.comp2042.GuiController"
+
+
+<!-- BorderPane has better Layout Management-->
+<BorderPane fx:controller="com.comp2042.GuiController"
       xmlns:fx="http://javafx.com/fxml">
+
+    <!-- Left Area - Reserved for scores -->
+    <left>
+        <VBox fx:id="statsPanel"
+              spacing="20"
+              prefWidth="150"
+              style="-fx-padding: 20; -fx-background-color: #2a2a2a; -fx-border-color: #444; -fx-border-width: 0 2 0 0;">
+
+            <VBox spacing="5">
+            <Label text="SCORE" style="-fx-text-fill: #888; -fx-font-size: 12; -fx-font-weight: bold;"/>
+            <Label fx:id="scoreLabel"
+               text="Score: 0"
+               style="-fx-text-fill: white; -fx-font-size: 20; -fx-font-weight: bold;"/>
+            </VBox>
+        </VBox>
+    </left>
+
     <GridPane fx:id="brickPanel" vgap="1" hgap="1"/>
     <BorderPane styleClass="gameBoard" fx:id="gameBoard">
         <center>
@@ -23,4 +43,4 @@
     <stylesheets>
         <URL value="@window_style.css"/>
     </stylesheets>
-</Pane>
+</BorderPane>
