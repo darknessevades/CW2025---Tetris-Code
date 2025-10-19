@@ -52,12 +52,17 @@ public class GuiController implements Initializable {
     @FXML
     private Label linesLabel; // Danger Line Indicator
 
+    @FXML
+    private GridPane nextBrickPanel; // Piece preview section
+
 
     private Rectangle[][] displayMatrix; // For the background / locked pieces
 
     private InputEventListener eventListener; // Handles game logic, input
 
     private Rectangle[][] rectangles; // Current rectangle pieces
+
+    private Rectangle[][] nextPieceRectangles; // Incoming rectangle pieces
 
     private Timeline timeLine; // Controls auto falling
 
@@ -152,6 +157,9 @@ public class GuiController implements Initializable {
         brickPanel.setLayoutX(gamePanel.getLayoutX() + brick.getxPosition() * brickPanel.getVgap() + brick.getxPosition() * BRICK_SIZE);
         brickPanel.setLayoutY(-42 + gamePanel.getLayoutY() + brick.getyPosition() * brickPanel.getHgap() + brick.getyPosition() * BRICK_SIZE);
 
+        // Initialize next piece preview
+        initNextPiecePreview();
+
         // The auto fall timer
         timeLine = new Timeline(new KeyFrame(
                 Duration.millis(400),
@@ -160,6 +168,47 @@ public class GuiController implements Initializable {
         timeLine.setCycleCount(Timeline.INDEFINITE);
         timeLine.play();
     }
+
+    // Added next piece preview initialization
+    private void initNextPiecePreview() {
+        if (nextBrickPanel != null) {
+            nextBrickPanel.getChildren().clear();
+            nextPieceRectangles = new Rectangle[4][4]; // Max size for any piece
+            for (int i = 0; i < 4; i++) {
+                for (int j = 0; j < 4; j++) {
+                    Rectangle rectangle = new Rectangle(BRICK_SIZE * 0.8, BRICK_SIZE * 0.8);
+                    rectangle.setFill(Color.TRANSPARENT);
+                    nextPieceRectangles[i][j] = rectangle;
+                    nextBrickPanel.add(rectangle, j, i);
+                }
+            }
+        }
+    }
+
+    // Update the preview of next piece
+    private void updateNextPiecePreview(ViewData viewData) {
+        if (nextPieceRectangles != null) {
+            viewData.getNextBrickData();// Clear preview
+            for (int i = 0; i < 4; i++) {
+                for (int j = 0; j < 4; j++) {
+                    nextPieceRectangles[i][j].setFill(Color.TRANSPARENT);
+                }
+            }
+
+            // Draw next piece
+            int[][] nextPiece = viewData.getNextBrickData();
+            for (int i = 0; i < nextPiece.length && i < 4; i++) {
+                for (int j = 0; j < nextPiece[i].length && j < 4; j++) {
+                    nextPieceRectangles[i][j].setFill(getFillColor(nextPiece[i][j]));
+                    if (nextPiece[i][j] != 0) {
+                        nextPieceRectangles[i][j].setArcHeight(7);
+                        nextPieceRectangles[i][j].setArcWidth(7);
+                    }
+                }
+            }
+        }
+    }
+
 
     // Piece colours
     private Paint getFillColor(int i) {
@@ -208,6 +257,9 @@ public class GuiController implements Initializable {
                     setRectangleData(brick.getBrickData()[i][j], rectangles[i][j]);
                 }
             }
+
+            updateNextPiecePreview(brick);
+
         }
     }
 

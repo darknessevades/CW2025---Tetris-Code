@@ -16,6 +16,10 @@ public class SimpleBoard implements Board {
     private Point currentOffset;
     private final Score score;
 
+    // Added to track current / incoming pieces
+    private Brick currentBrick;
+    private Brick nextBrick;
+
     public SimpleBoard(int width, int height) {
         this.width = width;
         this.height = height;
@@ -83,9 +87,19 @@ public class SimpleBoard implements Board {
 
     @Override
     public boolean createNewBrick() {
-        Brick currentBrick = brickGenerator.getBrick();
+        // Handle first brick creation
+        if (currentBrick == null && nextBrick == null) {
+            // First time - generate both current and next
+            currentBrick = brickGenerator.getBrick();
+            nextBrick = brickGenerator.getBrick();
+        } else {
+            // Normal case - promote next to current
+            currentBrick = nextBrick;
+            nextBrick = brickGenerator.getBrick();
+        }
+
         brickRotator.setBrick(currentBrick);
-        currentOffset = new Point(4, 10);
+        currentOffset = new Point(4, 0);
         return MatrixOperations.intersect(currentGameMatrix, brickRotator.getCurrentShape(), (int) currentOffset.getX(), (int) currentOffset.getY());
     }
 
@@ -96,7 +110,18 @@ public class SimpleBoard implements Board {
 
     @Override
     public ViewData getViewData() {
-        return new ViewData(brickRotator.getCurrentShape(), (int) currentOffset.getX(), (int) currentOffset.getY(), brickGenerator.getNextBrick().getShapeMatrix().get(0));
+        // Used the stored nextBrick instead of generating a new one
+        int[][] nextPieceData = (nextBrick != null)
+                ? nextBrick.getShapeMatrix().get(0)  // Default rotation of next piece
+                : new int[4][4];  // Empty array if no next piece
+
+        return new ViewData(
+                brickRotator.getCurrentShape(),
+                (int) currentOffset.getX(),
+                (int) currentOffset.getY(),
+                nextPieceData  // Show actual next piece.
+
+        );
     }
 
     @Override
@@ -122,6 +147,9 @@ public class SimpleBoard implements Board {
     public void newGame() {
         currentGameMatrix = new int[width][height];
         score.reset();
+        createNewBrick();
+        // Reset next brick for new game
+        nextBrick = brickGenerator.getBrick();
         createNewBrick();
     }
 }
