@@ -111,7 +111,7 @@ public class SimpleBoard implements Board {
             for (int row = 0; row <= 1; row++) {  // Check top 2 rows
                 for (int col = 0; col < currentGameMatrix[0].length; col++) {
                     if (currentGameMatrix[row][col] != 0) {
-                        return true; // Game over - blocks at border
+                        return true;
                     }
                 }
             }

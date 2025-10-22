@@ -82,6 +82,15 @@ public class GuiController implements Initializable {
         gamePanel.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {
+                // Block all movement if game is over (except N for new game)
+                if (isGameOver.getValue() == Boolean.TRUE) {
+                    if (keyEvent.getCode() == KeyCode.N) {
+                        newGame(null);
+                    }
+                    keyEvent.consume();
+                    return;  // Ignore all other keys when game is over
+                }
+
                 // Add the pause toggle "P" to keyboard inputs
                 if (keyEvent.getCode() == KeyCode.P) {
                     togglePause();
@@ -107,9 +116,11 @@ public class GuiController implements Initializable {
                         keyEvent.consume();
                     }
                 }
+
                 if (keyEvent.getCode() == KeyCode.N) {
                     newGame(null);
                 }
+
             }
         });
         gameOverPanel.setVisible(false);
@@ -321,6 +332,8 @@ public class GuiController implements Initializable {
     // Game Over Panel, BUG: Only shows the panel, no options to restart / exit
     public void gameOver() {
         timeLine.stop();
+        // Hide the falling brick immediately
+        brickPanel.setVisible(false);
         gameOverPanel.setVisible(true);
         isGameOver.setValue(Boolean.TRUE);
     }
@@ -328,6 +341,8 @@ public class GuiController implements Initializable {
     // Resets everything for a new game
     public void newGame(ActionEvent actionEvent) {
         timeLine.stop();
+        // Show the brick panel again for new game
+        brickPanel.setVisible(true);
         gameOverPanel.setVisible(false);
         eventListener.createNewGame();
         gamePanel.requestFocus();
