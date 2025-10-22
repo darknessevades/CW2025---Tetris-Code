@@ -100,7 +100,24 @@ public class SimpleBoard implements Board {
 
         brickRotator.setBrick(currentBrick);
         currentOffset = new Point(4, 0);
-        return MatrixOperations.intersect(currentGameMatrix, brickRotator.getCurrentShape(), (int) currentOffset.getX(), (int) currentOffset.getY());
+
+        // Check if new piece collides immediately
+        boolean collision = MatrixOperations.intersect(currentGameMatrix, brickRotator.getCurrentShape(),
+                (int) currentOffset.getX(), (int) currentOffset.getY());
+
+        // Check if any blocks exist in rows 0-1 (invisible rows above border)
+        // When blocks are here, they've reached the top border
+        if (!collision) {
+            for (int row = 0; row <= 1; row++) {  // Check top 2 rows
+                for (int col = 0; col < currentGameMatrix[0].length; col++) {
+                    if (currentGameMatrix[row][col] != 0) {
+                        return true; // Game over - blocks at border
+                    }
+                }
+            }
+        }
+
+        return collision;
     }
 
     @Override

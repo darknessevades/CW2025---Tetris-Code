@@ -21,10 +21,15 @@ public class Main extends Application {
         GuiController c = fxmlLoader.getController();
 
         primaryStage.setTitle("TetrisJFX");
-        Scene scene = new Scene(root, 300, 510);
+        Scene scene = new Scene(root, 360, 510); // Resize to view the whole center
         primaryStage.setScene(scene);
         primaryStage.show();
+        primaryStage.centerOnScreen();
         new GameController(c);
+
+        // Fix window size
+        primaryStage.setResizable(false);  // Prevent resizing
+        primaryStage.sizeToScene();       // Fit window to scene size
     }
 
 

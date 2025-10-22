@@ -125,15 +125,8 @@ public class GuiController implements Initializable {
     public void initGameView(int[][] boardMatrix, ViewData brick) {
         displayMatrix = new Rectangle[boardMatrix.length][boardMatrix[0].length];
 
-        // Addition of danger line at row 2
-        dangerLine = new Line(0, 0, boardMatrix[0].length * BRICK_SIZE, 0);
-        dangerLine.setStroke(Color.RED);
-        dangerLine.setStrokeWidth(2);
-        dangerLine.setOpacity(0.5);
-        dangerLine.getStrokeDashArray().addAll(5d, 5d);
-        gamePanel.add(dangerLine, 0, 3, boardMatrix[0].length, 1);
 
-        for (int i = 2; i < boardMatrix.length; i++) { // top row is hidden as that's where the blocks spawn, BUT danger zone is not indicated?
+        for (int i = 2; i < boardMatrix.length; i++) { // top row is hidden as that's where the blocks spawn, BUT danger zone is not indicated? (BUG)
             for (int j = 0; j < boardMatrix[i].length; j++) {
                 Rectangle rectangle = new Rectangle(BRICK_SIZE, BRICK_SIZE);
                 rectangle.setFill(Color.TRANSPARENT);
@@ -185,24 +178,45 @@ public class GuiController implements Initializable {
         }
     }
 
-    // Update the preview of next piece
     private void updateNextPiecePreview(ViewData viewData) {
-        if (nextPieceRectangles != null) {
-            viewData.getNextBrickData();// Clear preview
+        if (nextPieceRectangles != null && viewData.getNextBrickData() != null) {
+            // Preview
             for (int i = 0; i < 4; i++) {
                 for (int j = 0; j < 4; j++) {
                     nextPieceRectangles[i][j].setFill(Color.TRANSPARENT);
                 }
             }
 
-            // Draw next piece
             int[][] nextPiece = viewData.getNextBrickData();
-            for (int i = 0; i < nextPiece.length && i < 4; i++) {
-                for (int j = 0; j < nextPiece[i].length && j < 4; j++) {
-                    nextPieceRectangles[i][j].setFill(getFillColor(nextPiece[i][j]));
+
+            // Find the actual bounds of the piece (non-zero cells)
+            int minRow = 4, maxRow = -1, minCol = 4, maxCol = -1;
+            for (int i = 0; i < nextPiece.length; i++) {
+                for (int j = 0; j < nextPiece[i].length; j++) {
                     if (nextPiece[i][j] != 0) {
-                        nextPieceRectangles[i][j].setArcHeight(7);
-                        nextPieceRectangles[i][j].setArcWidth(7);
+                        minRow = Math.min(minRow, i);
+                        maxRow = Math.max(maxRow, i);
+                        minCol = Math.min(minCol, j);
+                        maxCol = Math.max(maxCol, j);
+                    }
+                }
+            }
+
+            // Calculate centering offset
+            int pieceHeight = maxRow - minRow + 1;
+            int pieceWidth = maxCol - minCol + 1;
+            int offsetRow = (4 - pieceHeight) / 2;
+            int offsetCol = (4 - pieceWidth) / 2;
+
+            // Draw centered piece
+            for (int i = minRow; i <= maxRow; i++) {
+                for (int j = minCol; j <= maxCol; j++) {
+                    if (nextPiece[i][j] != 0) {
+                        int displayRow = offsetRow + (i - minRow);
+                        int displayCol = offsetCol + (j - minCol);
+                        nextPieceRectangles[displayRow][displayCol].setFill(getFillColor(nextPiece[i][j]));
+                        nextPieceRectangles[displayRow][displayCol].setArcHeight(7);
+                        nextPieceRectangles[displayRow][displayCol].setArcWidth(7);
                     }
                 }
             }
