@@ -82,7 +82,7 @@ public class GuiController implements Initializable {
         gamePanel.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {
-                // Block all movement if game is over (except N for new game)
+                // Block all movement if game is over, locks until a new game is started
                 if (isGameOver.getValue() == Boolean.TRUE) {
                     if (keyEvent.getCode() == KeyCode.N) {
                         newGame(null);
