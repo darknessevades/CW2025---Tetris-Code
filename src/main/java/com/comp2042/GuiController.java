@@ -332,7 +332,7 @@ public class GuiController implements Initializable {
     // Game Over Panel, BUG: Only shows the panel, no options to restart / exit
     public void gameOver() {
         timeLine.stop();
-        // Hide the falling brick immediately
+        // When game over, immediately hide the spawning panel so new pieces won't show up
         brickPanel.setVisible(false);
         gameOverPanel.setVisible(true);
         isGameOver.setValue(Boolean.TRUE);
@@ -341,7 +341,7 @@ public class GuiController implements Initializable {
     // Resets everything for a new game
     public void newGame(ActionEvent actionEvent) {
         timeLine.stop();
-        // Show the brick panel again for new game
+        // Continue showing the spawning panel when a new game starts
         brickPanel.setVisible(true);
         gameOverPanel.setVisible(false);
         eventListener.createNewGame();
