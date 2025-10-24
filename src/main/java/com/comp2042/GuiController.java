@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.effect.Reflection;
 import javafx.scene.input.KeyCode;
@@ -55,6 +56,8 @@ public class GuiController implements Initializable {
     @FXML
     private GridPane nextBrickPanel; // Piece preview section
 
+    @FXML
+    private VBox gameOverOverlay; // The overlay for the Game Over Panel
 
     private Rectangle[][] displayMatrix; // For the background / locked pieces
 
@@ -329,11 +332,27 @@ public class GuiController implements Initializable {
         }
     }
 
-    // Game Over Panel, BUG: Only shows the panel, no options to restart / exit
+    // Game Over Panel, BUG: Only shows the panel, no instructions to restart / exit
+    // Fix = better game over panel
     public void gameOver() {
         timeLine.stop();
-        // When game over, immediately hide the spawning panel so new pieces won't show up
         brickPanel.setVisible(false);
+
+        // Show the overlay container which will darken the entire window
+        if (gameOverOverlay != null) {
+            gameOverOverlay.setVisible(true);
+        }
+
+        // Update score in GameOverPanel if needed
+        String currentScore = "0";
+        if (this.scoreLabel != null) {
+            currentScore = this.scoreLabel.getText().replace("Score: ", "");
+        }
+        if (gameOverPanel != null) {
+            ((GameOverPanel) gameOverPanel).setFinalScore(currentScore);
+        }
+
+        assert gameOverPanel != null;
         gameOverPanel.setVisible(true);
         isGameOver.setValue(Boolean.TRUE);
     }
@@ -341,6 +360,10 @@ public class GuiController implements Initializable {
     // Resets everything for a new game
     public void newGame(ActionEvent actionEvent) {
         timeLine.stop();
+        // Hide the overlay
+        if (gameOverOverlay != null) {
+            gameOverOverlay.setVisible(false);
+        }
         // Continue showing the spawning panel when a new game starts
         brickPanel.setVisible(true);
         gameOverPanel.setVisible(false);

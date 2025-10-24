@@ -6,85 +6,96 @@
 <?import javafx.scene.layout.*?>
 <?import java.net.URL?>
 
-<BorderPane fx:controller="com.comp2042.GuiController"
-            xmlns:fx="http://javafx.com/fxml"
-            prefWidth="600"
-            prefHeight="650"
-            maxWidth="600"
-            maxHeight="650"
-            style="-fx-background-color: #1a1a1a;">
+<!-- Root StackPane to allow overlay -->
+<StackPane xmlns:fx="http://javafx.com/fxml"
+           fx:controller="com.comp2042.GuiController"
+           prefWidth="600"
+           prefHeight="650"
+           maxWidth="600"
+           maxHeight="650">
 
-    <!-- Left Area - Stats and Preview -->
-    <left>
-        <VBox fx:id="statsPanel"
-              spacing="20"
-              prefWidth="120"
-              style="-fx-padding: 20; -fx-background-color: #2a2a2a; -fx-border-color: #444; -fx-border-width: 0 2 0 0;">
+    <!-- Main Game Layout -->
+    <BorderPane style="-fx-background-color: #1a1a1a;">
 
-            <!-- Score -->
-            <VBox spacing="5">
-                <Label text="SCORE" style="-fx-text-fill: #888; -fx-font-size: 12; -fx-font-weight: bold;"/>
-                <Label fx:id="scoreLabel"
-                       text="Score: 0"
-                       style="-fx-text-fill: white; -fx-font-size: 15; -fx-font-weight: bold;"/>
-            </VBox>
+        <!-- Left Area - Stats and Preview -->
+        <left>
+            <VBox fx:id="statsPanel"
+                  spacing="20"
+                  prefWidth="120"
+                  style="-fx-padding: 20; -fx-background-color: #2a2a2a; -fx-border-color: #444; -fx-border-width: 0 2 0 0;">
 
-            <!-- Next Piece Preview -->
-            <VBox spacing="5">
-                <Label text="NEXT" style="-fx-text-fill: #888; -fx-font-size: 12; -fx-font-weight: bold;"/>
-                <GridPane fx:id="nextBrickPanel"
-                          hgap="1"
-                          vgap="1"
-                          prefWidth="60"
-                          prefHeight="60"
-                          style="-fx-border-color: #555; -fx-border-width: 2; -fx-background-color: #1a1a1a; -fx-padding: 5;">
-                </GridPane>
-            </VBox>
-        </VBox>
-    </left>
+                <!-- Score -->
+                <VBox spacing="5">
+                    <Label text="SCORE" style="-fx-text-fill: #888; -fx-font-size: 12; -fx-font-weight: bold;"/>
+                    <Label fx:id="scoreLabel"
+                           text="Score: 0"
+                           style="-fx-text-fill: white; -fx-font-size: 15; -fx-font-weight: bold;"/>
+                </VBox>
 
-    <!-- Center Area -->
-    <center>
-        <!-- Fix the pane size -->
-        <Pane prefWidth="250" prefHeight="600">
-            <!-- Game Board Background -->
-            <BorderPane styleClass="gameBoard" fx:id="gameBoard">
-                <center>
-                    <GridPane fx:id="gamePanel"
+                <!-- Next Piece Preview -->
+                <VBox spacing="5">
+                    <Label text="NEXT" style="-fx-text-fill: #888; -fx-font-size: 12; -fx-font-weight: bold;"/>
+                    <GridPane fx:id="nextBrickPanel"
                               hgap="1"
                               vgap="1"
-                              style="-fx-background-color: #0a0a0a;"/>
-                </center>
-            </BorderPane>
-
-            <!-- Falling Brick Panel  -->
-            <GridPane fx:id="brickPanel"
-                      vgap="1"
-                      hgap="1"
-                      mouseTransparent="true"/>
-
-            <!-- Notifications Group -->
-            <Group fx:id="groupNotification"
-                   layoutX="100"
-                   layoutY="50"/>
-
-            <!-- Game Over Panel  -->
-            <VBox alignment="CENTER"
-                  layoutX="50"
-                  layoutY="200">
-                <GameOverPanel fx:id="gameOverPanel"/>
+                              prefWidth="60"
+                              prefHeight="60"
+                              style="-fx-border-color: #555; -fx-border-width: 2; -fx-background-color: #1a1a1a; -fx-padding: 5;">
+                    </GridPane>
+                </VBox>
             </VBox>
+        </left>
 
-            <!-- Pause Label -->
-            <Label fx:id="pauseLabel"
-                   text=""
-                   layoutX="100"
-                   layoutY="250"
-                   style="-fx-font-size: 36; -fx-text-fill: red; -fx-font-weight: bold;"/>
-        </Pane>
-    </center>
+        <!-- Center Area - Game Board -->
+        <center>
+            <Pane prefWidth="250" prefHeight="600">
+                <!-- Game Board Background -->
+                <BorderPane styleClass="gameBoard" fx:id="gameBoard">
+                    <center>
+                        <GridPane fx:id="gamePanel"
+                                  hgap="1"
+                                  vgap="1"
+                                  style="-fx-background-color: #0a0a0a;"/>
+                    </center>
+                </BorderPane>
+
+                <!-- Falling Brick Panel -->
+                <GridPane fx:id="brickPanel"
+                          vgap="1"
+                          hgap="1"
+                          mouseTransparent="true"/>
+
+                <!-- Notifications Group -->
+                <Group fx:id="groupNotification"
+                       layoutX="100"
+                       layoutY="50"/>
+
+                <!-- Pause Label -->
+                <Label fx:id="pauseLabel"
+                       text=""
+                       layoutX="100"
+                       layoutY="250"
+                       style="-fx-font-size: 36; -fx-text-fill: red; -fx-font-weight: bold;"/>
+            </Pane>
+        </center>
+    </BorderPane>
+
+    <!-- Game Over Overlay -->
+    <VBox alignment="CENTER"
+          style="-fx-background-color: rgba(0, 0, 0, 0.8);"
+          visible="false"
+          fx:id="gameOverOverlay">
+
+        <GameOverPanel fx:id="gameOverPanel"
+                       maxWidth="350"
+                       maxHeight="200"
+                       style="-fx-background-color: rgba(200, 0, 0, 0.95);
+                              -fx-padding: 30;
+                              -fx-border-radius: 10;
+                              -fx-background-radius: 10;"/>
+    </VBox>
 
     <stylesheets>
         <URL value="@window_style.css"/>
     </stylesheets>
-</BorderPane>
+</StackPane>
