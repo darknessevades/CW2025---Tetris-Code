@@ -59,6 +59,9 @@ public class GuiController implements Initializable {
     @FXML
     private VBox gameOverOverlay; // The overlay for the Game Over Panel
 
+    @FXML
+    private VBox pauseOverlay; // Overlay for the pause screen
+
     private Rectangle[][] displayMatrix; // For the background / locked pieces
 
     private InputEventListener eventListener; // Handles game logic, input
@@ -384,13 +387,13 @@ public class GuiController implements Initializable {
         isPause.setValue(!isPause.getValue());
         if (isPause.getValue()) {
             timeLine.pause();
-            if (pauseLabel != null) {
-                pauseLabel.setText("PAUSED");
+            if (pauseOverlay != null) {
+                pauseOverlay.setVisible(true);  // Show pause overlay
             }
         } else {
             timeLine.play();
-            if (pauseLabel != null) {
-                pauseLabel.setText("");
+            if (pauseOverlay != null) {
+                pauseOverlay.setVisible(false);  // Hide pause overlay
             }
         }
         gamePanel.requestFocus();

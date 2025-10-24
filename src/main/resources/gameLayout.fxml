@@ -70,12 +70,6 @@
                        layoutX="100"
                        layoutY="50"/>
 
-                <!-- Pause Label -->
-                <Label fx:id="pauseLabel"
-                       text=""
-                       layoutX="100"
-                       layoutY="250"
-                       style="-fx-font-size: 36; -fx-text-fill: red; -fx-font-weight: bold;"/>
             </Pane>
         </center>
     </BorderPane>
@@ -93,6 +87,30 @@
                               -fx-padding: 30;
                               -fx-border-radius: 10;
                               -fx-background-radius: 10;"/>
+    </VBox>
+
+    <!-- Pause Overlay - Centered on entire window -->
+    <VBox alignment="CENTER"
+          mouseTransparent="false"
+          style="-fx-background-color: rgba(0, 0, 0, 0.7);"
+          visible="false"
+          fx:id="pauseOverlay">
+
+        <VBox alignment="CENTER"
+              spacing="20"
+              maxWidth="300"
+              maxHeight="150"
+              style="-fx-background-color: rgba(50, 50, 50, 0.95);
+                 -fx-padding: 30;
+                 -fx-border-radius: 10;
+                 -fx-background-radius: 10;">
+
+            <Label text="PAUSED"
+                   style="-fx-font-size: 36; -fx-text-fill: red; -fx-font-weight: bold;"/>
+
+            <Label text="Press P to resume"
+                   style="-fx-font-size: 18; -fx-text-fill: white;"/>
+        </VBox>
     </VBox>
 
     <stylesheets>
