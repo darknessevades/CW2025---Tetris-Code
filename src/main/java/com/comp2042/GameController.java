@@ -75,4 +75,32 @@ public class GameController implements InputEventListener {
         board.newGame();
         viewGuiController.refreshGameBackground(board.getBoardMatrix());
     }
+
+    // In GameController.java, add this method:
+    public void onHardDropEvent() {
+        int dropDistance = 0;
+
+        // Keep moving down until piece can't move
+        while (board.moveBrickDown()) {
+            dropDistance++;
+        }
+
+        // Piece has landed - merge and check for clears
+        board.mergeBrickToBackground();
+        ClearRow clearRow = board.clearRows();
+
+        // Add score: 2 points per row dropped + line clear bonus
+        board.getScore().add(dropDistance * 2);
+        if (clearRow.getLinesRemoved() > 0) {
+            board.getScore().add(clearRow.getScoreBonus());
+        }
+
+        // Create new brick and check for game over
+        if (board.createNewBrick()) {
+            viewGuiController.gameOver();
+        }
+
+        viewGuiController.refreshGameBackground(board.getBoardMatrix());
+        viewGuiController.refreshBrick(board.getViewData());
+    }
 }

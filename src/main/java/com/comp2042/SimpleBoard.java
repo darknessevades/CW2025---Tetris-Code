@@ -89,11 +89,9 @@ public class SimpleBoard implements Board {
     public boolean createNewBrick() {
         // Handle first brick creation
         if (currentBrick == null && nextBrick == null) {
-            // First time - generate both current and next
             currentBrick = brickGenerator.getBrick();
             nextBrick = brickGenerator.getBrick();
         } else {
-            // Normal case - promote next to current
             currentBrick = nextBrick;
             nextBrick = brickGenerator.getBrick();
         }
@@ -105,18 +103,32 @@ public class SimpleBoard implements Board {
         boolean collision = MatrixOperations.intersect(currentGameMatrix, brickRotator.getCurrentShape(),
                 (int) currentOffset.getX(), (int) currentOffset.getY());
 
-        // Further collision checks when game goes on
-        if (!collision) {
-            for (int row = 0; row <= 1; row++) {  // Check top 2 rows
+        // Only check for blocks in danger zone if there's no immediate collision
+        // AND only if this isn't the first piece (board isn't empty)
+        // This is needed as hard drop might be triggered on empty board, bug fix!
+        if (!collision && !isBoardEmpty()) {
+            for (int row = 0; row <= 1; row++) {
                 for (int col = 0; col < currentGameMatrix[0].length; col++) {
                     if (currentGameMatrix[row][col] != 0) {
-                        return true;
+                        return true; // Game over
                     }
                 }
             }
         }
 
         return collision;
+    }
+
+    // Helper method to check if board is empty, so hard drop could work normally.
+    private boolean isBoardEmpty() {
+        for (int[] gameMatrix : currentGameMatrix) {
+            for (int col = 0; col < currentGameMatrix[0].length; col++) {
+                if (gameMatrix[col] != 0) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     @Override

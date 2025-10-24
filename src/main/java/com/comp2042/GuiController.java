@@ -121,6 +121,13 @@ public class GuiController implements Initializable {
                         moveDown(new MoveEvent(EventType.DOWN, EventSource.USER));
                         keyEvent.consume();
                     }
+                    // Hard drop assigned to space key
+                    if (keyEvent.getCode() == KeyCode.SPACE) {
+                        if (eventListener instanceof GameController) {
+                            ((GameController) eventListener).onHardDropEvent();
+                        }
+                        keyEvent.consume();
+                    }
                 }
 
                 if (keyEvent.getCode() == KeyCode.N) {
@@ -277,7 +284,7 @@ public class GuiController implements Initializable {
     }
 
     // Refresh / Update the falling piece as it goes down the grid
-    private void refreshBrick(ViewData brick) {
+    void refreshBrick(ViewData brick) {
         if (isPause.getValue() == Boolean.FALSE) {
             // Piece position is updated
             brickPanel.setLayoutX(gamePanel.getLayoutX() + brick.getxPosition() * brickPanel.getVgap() + brick.getxPosition() * BRICK_SIZE);
@@ -398,4 +405,5 @@ public class GuiController implements Initializable {
         }
         gamePanel.requestFocus();
     }
+
 }
