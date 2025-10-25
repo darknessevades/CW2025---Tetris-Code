@@ -76,7 +76,7 @@ public class GameController implements InputEventListener {
         viewGuiController.refreshGameBackground(board.getBoardMatrix());
     }
 
-    // In GameController.java, add this method:
+    // Hard Drop Logic
     public void onHardDropEvent() {
         int dropDistance = 0;
 
@@ -93,6 +93,8 @@ public class GameController implements InputEventListener {
         board.getScore().add(dropDistance * 2);
         if (clearRow.getLinesRemoved() > 0) {
             board.getScore().add(clearRow.getScoreBonus());
+            // Show the score notification
+            viewGuiController.showScoreNotification(clearRow.getScoreBonus());
         }
 
         // Create new brick and check for game over

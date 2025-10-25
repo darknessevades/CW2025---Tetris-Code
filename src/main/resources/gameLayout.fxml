@@ -65,14 +65,14 @@
                           hgap="1"
                           mouseTransparent="true"/>
 
-                <!-- Notifications Group -->
-                <Group fx:id="groupNotification"
-                       layoutX="100"
-                       layoutY="50"/>
 
             </Pane>
         </center>
     </BorderPane>
+
+    <!-- Score Notifications - Centered overlay -->
+    <Group fx:id="groupNotification"
+           StackPane.alignment="CENTER"/>
 
     <!-- Game Over Overlay -->
     <VBox alignment="CENTER"

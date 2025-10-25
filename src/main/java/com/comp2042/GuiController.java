@@ -406,4 +406,13 @@ public class GuiController implements Initializable {
         gamePanel.requestFocus();
     }
 
+    // Show notification for hard drop
+    public void showScoreNotification(int scoreBonus) {
+        if (scoreBonus > 0) {
+            NotificationPanel notificationPanel = new NotificationPanel("+" + scoreBonus);
+            groupNotification.getChildren().add(notificationPanel);
+            notificationPanel.showScore(groupNotification.getChildren());
+        }
+    }
+
 }

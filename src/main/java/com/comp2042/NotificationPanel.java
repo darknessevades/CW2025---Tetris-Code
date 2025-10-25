@@ -17,8 +17,9 @@ import javafx.util.Duration;
 public class NotificationPanel extends BorderPane {
 
     public NotificationPanel(String text) {
-        setMinHeight(200);
+        setMinHeight(100);
         setMinWidth(220);
+        setMaxWidth(200);
         final Label score = new Label(text);
         score.getStyleClass().add("bonusStyle");
         final Effect glow = new Glow(0.6);
@@ -33,6 +34,7 @@ public class NotificationPanel extends BorderPane {
         TranslateTransition tt = new TranslateTransition(Duration.millis(2500), this);
         tt.setToY(this.getLayoutY() - 40);
         ft.setFromValue(1);
+
         ft.setToValue(0);
         ParallelTransition transition = new ParallelTransition(tt, ft);
         transition.setOnFinished(new EventHandler<ActionEvent>() {
