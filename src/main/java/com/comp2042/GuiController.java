@@ -89,12 +89,22 @@ public class GuiController implements Initializable {
             @Override
             public void handle(KeyEvent keyEvent) {
                 // Block all movement if game is over, locks until a new game is started
-                if (isGameOver.getValue() == Boolean.TRUE) {
-                    if (keyEvent.getCode() == KeyCode.N) {
+                if (keyEvent.getCode() == KeyCode.N) {
+                    if (isGameOver.getValue() == Boolean.TRUE) {
+                        // Game is over - start new game
                         newGame(null);
+                    } else {
+                        // Game is running - force game over
+                        forceGameOver();
                     }
                     keyEvent.consume();
-                    return;  // Ignore all other keys when game is over
+                    return;
+                }
+
+                // Block all other keys if game is over
+                if (isGameOver.getValue() == Boolean.TRUE) {
+                    keyEvent.consume();
+                    return;
                 }
 
                 // Add the pause toggle "P" to keyboard inputs
@@ -145,6 +155,7 @@ public class GuiController implements Initializable {
         reflection.setTopOpacity(0.9);
         reflection.setTopOffset(-12);
     }
+
     // Creates the background grid
     public void initGameView(int[][] boardMatrix, ViewData brick) {
         displayMatrix = new Rectangle[boardMatrix.length][boardMatrix[0].length];
@@ -359,7 +370,7 @@ public class GuiController implements Initializable {
             currentScore = this.scoreLabel.getText().replace("Score: ", "");
         }
         if (gameOverPanel != null) {
-            ((GameOverPanel) gameOverPanel).setFinalScore(currentScore);
+            ((GameOverPanel) gameOverPanel).setFinalScore(currentScore, false);
         }
 
         assert gameOverPanel != null;
@@ -413,6 +424,27 @@ public class GuiController implements Initializable {
             groupNotification.getChildren().add(notificationPanel);
             notificationPanel.showScore(groupNotification.getChildren());
         }
+    }
+
+    // Force Restart
+    public void forceGameOver() {
+        timeLine.stop();
+        brickPanel.setVisible(false);
+
+        if (gameOverOverlay != null) {
+            gameOverOverlay.setVisible(true);
+        }
+
+        String currentScore = "0";
+        if (this.scoreLabel != null) {
+            currentScore = this.scoreLabel.getText().replace("Score: ", "");
+        }
+        if (gameOverPanel instanceof GameOverPanel) {
+            ((GameOverPanel) gameOverPanel).setFinalScore(currentScore, true);  // true = forced
+        }
+
+        gameOverPanel.setVisible(true);
+        isGameOver.setValue(Boolean.TRUE);
     }
 
 }
