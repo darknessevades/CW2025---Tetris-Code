@@ -54,6 +54,9 @@ public class GuiController implements Initializable {
     private Label linesLabel; // Danger Line Indicator
 
     @FXML
+    private Label levelLabel; // Level score
+
+    @FXML
     private GridPane nextBrickPanel; // Piece preview section
 
     @FXML
@@ -77,6 +80,9 @@ public class GuiController implements Initializable {
     private final BooleanProperty isPause = new SimpleBooleanProperty();
 
     private final BooleanProperty isGameOver = new SimpleBooleanProperty();
+
+    private int level = 1;              // ADD THIS LINE
+    private int totalLines = 0;         // ADD THIS LINE
 
     @Override
     public void initialize(URL location, ResourceBundle resources) { // Renders the custom font, sets keyboard focus
@@ -445,6 +451,48 @@ public class GuiController implements Initializable {
 
         gameOverPanel.setVisible(true);
         isGameOver.setValue(Boolean.TRUE);
+    }
+
+    private void updateGameSpeed() {
+        // Base speed 800ms, decrease by 50ms per level, minimum 100ms
+        int speed = Math.max(100, 800 - (level * 50));
+
+        if (timeLine != null) {
+            timeLine.stop();
+        }
+
+        timeLine = new Timeline(new KeyFrame(
+                Duration.millis(speed),
+                ae -> moveDown(new MoveEvent(EventType.DOWN, EventSource.THREAD))
+        ));
+        timeLine.setCycleCount(Timeline.INDEFINITE);
+        timeLine.play();
+    }
+
+    // Call this when level changes
+    public void onLevelUp(int newLevel) {
+        this.level = newLevel;  // Now 'level' refers to the class field
+
+        // Update display
+        if (levelLabel != null) {
+            levelLabel.setText(String.valueOf(newLevel));
+        }
+
+        updateGameSpeed();
+
+        // Show level up notification
+        NotificationPanel levelUpPanel = new NotificationPanel("LEVEL " + newLevel);
+        groupNotification.getChildren().add(levelUpPanel);
+        levelUpPanel.showScore(groupNotification.getChildren());
+    }
+
+    public void bindLevelAndLines(IntegerProperty levelProperty, IntegerProperty linesProperty) {
+        if (levelLabel != null) {
+            levelLabel.textProperty().bind(levelProperty.asString());
+        }
+        if (linesLabel != null) {
+            linesLabel.textProperty().bind(linesProperty.asString());
+        }
     }
 
 }

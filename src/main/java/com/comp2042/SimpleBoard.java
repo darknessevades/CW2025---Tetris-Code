@@ -20,6 +20,11 @@ public class SimpleBoard implements Board {
     private Brick currentBrick;
     private Brick nextBrick;
 
+    // Added for level system
+    private int level = 1;
+    private int linesUntilNextLevel = 10;
+    private int totalLinesCleared = 0;
+
     public SimpleBoard(int width, int height) {
         this.width = width;
         this.height = height;
@@ -159,8 +164,14 @@ public class SimpleBoard implements Board {
 
     @Override
     public ClearRow clearRows() {
-        ClearRow clearRow = MatrixOperations.checkRemoving(currentGameMatrix);
+        ClearRow clearRow = MatrixOperations.checkRemoving(currentGameMatrix, level);
         currentGameMatrix = clearRow.getNewMatrix();
+
+        if (clearRow.getLinesRemoved() > 0) {
+            totalLinesCleared += clearRow.getLinesRemoved();
+            level += clearRow.getLinesRemoved();  // Add 1 level per line
+        }
+
         return clearRow;
 
     }
@@ -179,5 +190,13 @@ public class SimpleBoard implements Board {
         // Reset next brick for new game
         nextBrick = brickGenerator.getBrick();
         createNewBrick();
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public int getTotalLines() {
+        return totalLinesCleared;
     }
 }

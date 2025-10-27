@@ -24,6 +24,20 @@
                   prefWidth="120"
                   style="-fx-padding: 20; -fx-background-color: #2a2a2a; -fx-border-color: #444; -fx-border-width: 0 2 0 0;">
 
+                <VBox spacing="5">
+                    <Label text="LEVEL" style="-fx-text-fill: #888; -fx-font-size: 12; -fx-font-weight: bold;"/>
+                    <Label fx:id="levelLabel"
+                           text="1"
+                           style="-fx-text-fill: white; -fx-font-size: 15; -fx-font-weight: bold;"/>
+                </VBox>
+
+                <VBox spacing="5">
+                    <Label text="LINES" style="-fx-text-fill: #888; -fx-font-size: 12; -fx-font-weight: bold;"/>
+                    <Label fx:id="linesLabel"
+                           text="0"
+                           style="-fx-text-fill: white; -fx-font-size: 15; -fx-font-weight: bold;"/>
+                </VBox>
+
                 <!-- Score -->
                 <VBox spacing="5">
                     <Label text="SCORE" style="-fx-text-fill: #888; -fx-font-size: 12; -fx-font-weight: bold;"/>

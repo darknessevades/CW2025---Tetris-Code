@@ -60,7 +60,7 @@ public class MatrixOperations {
         return copy;
     }
 
-    public static ClearRow checkRemoving(final int[][] matrix) {
+    public static ClearRow checkRemoving(final int[][] matrix, int level) {  // ADD level parameter
         int[][] tmp = new int[matrix.length][matrix[0].length];
         Deque<int[]> newRows = new ArrayDeque<>();
         List<Integer> clearedRows = new ArrayList<>();
@@ -88,7 +88,18 @@ public class MatrixOperations {
                 break;
             }
         }
-        int scoreBonus = 50 * clearedRows.size() * clearedRows.size();
+
+        // Updated scoring system with level multiplier
+        int baseScore = 0;
+        switch (clearedRows.size()) {
+            case 1: baseScore = 100; break;
+            case 2: baseScore = 300; break;
+            case 3: baseScore = 500; break;
+            case 4: baseScore = 800; break;  // Tetris!
+        }
+
+        int scoreBonus = baseScore * level;  // Multiply by level
+
         return new ClearRow(clearedRows.size(), tmp, scoreBonus);
     }
 
