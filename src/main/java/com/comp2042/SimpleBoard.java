@@ -169,12 +169,18 @@ public class SimpleBoard implements Board {
 
         if (clearRow.getLinesRemoved() > 0) {
             totalLinesCleared += clearRow.getLinesRemoved();
-            level += clearRow.getLinesRemoved();  // Add 1 level per line
+            linesUntilNextLevel -= clearRow.getLinesRemoved();
+
+            // Level up every 10 lines
+            if (linesUntilNextLevel <= 0) {
+                level++;
+                linesUntilNextLevel = 10 + linesUntilNextLevel; // Carry over extra lines
+            }
         }
 
         return clearRow;
-
     }
+
 
     @Override
     public Score getScore() {

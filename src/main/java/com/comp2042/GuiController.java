@@ -376,7 +376,7 @@ public class GuiController implements Initializable {
             currentScore = this.scoreLabel.getText().replace("Score: ", "");
         }
         if (gameOverPanel != null) {
-            ((GameOverPanel) gameOverPanel).setFinalScore(currentScore, false);
+            gameOverPanel.setFinalScore(currentScore, false);
         }
 
         assert gameOverPanel != null;
@@ -399,6 +399,12 @@ public class GuiController implements Initializable {
         timeLine.play();
         isPause.setValue(Boolean.FALSE);
         isGameOver.setValue(Boolean.FALSE);
+
+        // Reset displays
+        this.level = 1;
+        this.totalLines = 0;
+        if (levelLabel != null) levelLabel.setText("1");
+        if (linesLabel != null) linesLabel.setText("0");
     }
 
     // Pause Game function, BUG : Completely Empty, can't pause !
@@ -445,10 +451,11 @@ public class GuiController implements Initializable {
         if (this.scoreLabel != null) {
             currentScore = this.scoreLabel.getText().replace("Score: ", "");
         }
-        if (gameOverPanel instanceof GameOverPanel) {
+        if (gameOverPanel != null) {
             ((GameOverPanel) gameOverPanel).setFinalScore(currentScore, true);  // true = forced
         }
 
+        assert gameOverPanel != null;
         gameOverPanel.setVisible(true);
         isGameOver.setValue(Boolean.TRUE);
     }
@@ -482,16 +489,15 @@ public class GuiController implements Initializable {
 
         // Show level up notification
         NotificationPanel levelUpPanel = new NotificationPanel("LEVEL " + newLevel);
+        levelUpPanel.setTranslateY(60);
         groupNotification.getChildren().add(levelUpPanel);
         levelUpPanel.showScore(groupNotification.getChildren());
     }
 
-    public void bindLevelAndLines(IntegerProperty levelProperty, IntegerProperty linesProperty) {
-        if (levelLabel != null) {
-            levelLabel.textProperty().bind(levelProperty.asString());
-        }
+    public void updateLinesDisplay(int lines) {
+        this.totalLines = lines;
         if (linesLabel != null) {
-            linesLabel.textProperty().bind(linesProperty.asString());
+            linesLabel.setText(String.valueOf(lines));
         }
     }
 

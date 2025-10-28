@@ -12,6 +12,8 @@ public class GameController implements InputEventListener {
 
     private int previousLevel = 1;
 
+    private int totalLines = 0;
+
     // Constructor for a new game
     // Creates a 25 x 10 board
     // Create the first piece
@@ -38,7 +40,11 @@ public class GameController implements InputEventListener {
             clearRow = board.clearRows(); // clears completed rows (if present)
             if (clearRow.getLinesRemoved() > 0) { // for rows cleared add scores
                 board.getScore().add(clearRow.getScoreBonus());
-                // CHECK FOR LEVEL CHANGE HERE
+                // UPDATE LINES
+                totalLines += clearRow.getLinesRemoved();
+                viewGuiController.updateLinesDisplay(totalLines);
+
+                // CHECK LEVEL
                 int currentLevel = ((SimpleBoard)board).getLevel();
                 if (currentLevel != previousLevel) {
                     viewGuiController.onLevelUp(currentLevel);
@@ -101,8 +107,18 @@ public class GameController implements InputEventListener {
         board.getScore().add(dropDistance * 2);
         if (clearRow.getLinesRemoved() > 0) {
             board.getScore().add(clearRow.getScoreBonus());
-            // Show the score notification
             viewGuiController.showScoreNotification(clearRow.getScoreBonus());
+
+            // UPDATE LINES HERE TOO
+            totalLines += clearRow.getLinesRemoved();
+            viewGuiController.updateLinesDisplay(totalLines);
+
+            // CHECK LEVEL
+            int currentLevel = ((SimpleBoard)board).getLevel();
+            if (currentLevel != previousLevel) {
+                viewGuiController.onLevelUp(currentLevel);
+                previousLevel = currentLevel;
+            }
         }
 
         // Create new brick and check for game over

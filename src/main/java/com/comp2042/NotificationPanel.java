@@ -32,7 +32,7 @@ public class NotificationPanel extends BorderPane {
     public void showScore(ObservableList<Node> list) {
         FadeTransition ft = new FadeTransition(Duration.millis(2000), this);
         TranslateTransition tt = new TranslateTransition(Duration.millis(2500), this);
-        tt.setToY(this.getLayoutY() - 40);
+        tt.setByY(-60);
         ft.setFromValue(1);
 
         ft.setToValue(0);
