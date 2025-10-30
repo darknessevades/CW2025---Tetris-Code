@@ -15,6 +15,7 @@ import javafx.scene.effect.Reflection;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -65,6 +66,9 @@ public class GuiController implements Initializable {
     @FXML
     private VBox pauseOverlay; // Overlay for the pause screen
 
+    @FXML
+    private Pane ghostPane; // Overlay for the ghost piece
+
     private Rectangle[][] displayMatrix; // For the background / locked pieces
 
     private InputEventListener eventListener; // Handles game logic, input
@@ -72,6 +76,8 @@ public class GuiController implements Initializable {
     private Rectangle[][] rectangles; // Current rectangle pieces
 
     private Rectangle[][] nextPieceRectangles; // Incoming rectangle pieces
+
+    private Rectangle[][] ghostRectangles; // Preview rectangles
 
     private Timeline timeLine; // Controls auto falling
 
@@ -201,6 +207,19 @@ public class GuiController implements Initializable {
         ));
         timeLine.setCycleCount(Timeline.INDEFINITE);
         timeLine.play();
+
+        ghostRectangles = new Rectangle[4][4];
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                Rectangle ghost = new Rectangle(BRICK_SIZE, BRICK_SIZE);
+                ghost.setFill(Color.WHITE);
+                ghost.setOpacity(0.4);  // Semi-transparent
+                ghost.setStroke(Color.WHITE);
+                ghost.setStrokeWidth(1);
+                ghostRectangles[i][j] = ghost;
+                ghostPane.getChildren().add(ghost);  // Will position later
+            }
+        }
     }
 
     // Added next piece preview initialization
@@ -303,18 +322,46 @@ public class GuiController implements Initializable {
     // Refresh / Update the falling piece as it goes down the grid
     void refreshBrick(ViewData brick) {
         if (isPause.getValue() == Boolean.FALSE) {
-            // Piece position is updated
+            updateGhostPiece(brick);
             brickPanel.setLayoutX(gamePanel.getLayoutX() + brick.getxPosition() * brickPanel.getVgap() + brick.getxPosition() * BRICK_SIZE);
             brickPanel.setLayoutY(-42 + gamePanel.getLayoutY() + brick.getyPosition() * brickPanel.getHgap() + brick.getyPosition() * BRICK_SIZE);
-            // Update the piece visual
             for (int i = 0; i < brick.getBrickData().length; i++) {
                 for (int j = 0; j < brick.getBrickData()[i].length; j++) {
                     setRectangleData(brick.getBrickData()[i][j], rectangles[i][j]);
                 }
             }
-
+            // Update next piece preview
             updateNextPiecePreview(brick);
+        }
+    }
 
+    private void updateGhostPiece(ViewData brick) {
+        int[][] shape = brick.getBrickData();
+        int ghostY = brick.getGhostYPosition();
+
+        // Clear all ghost rectangles first
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                ghostRectangles[i][j].setVisible(false);
+            }
+        }
+
+        // Don't draw ghost if it's at the same position as the current piece
+        if (ghostY <= brick.getyPosition()) {
+            return;
+        }
+
+        for (int i = 0; i < shape.length && i < 4; i++) {
+            for (int j = 0; j < shape[i].length && j < 4; j++) {
+                if (shape[i][j] != 0) {
+                    Rectangle ghost = ghostRectangles[i][j];
+                    ghost.setVisible(true);
+                    // The positioning calculation needs to account for the game panel offset
+                    // and the fact that the first 2 rows are hidden
+                    ghost.setLayoutX(gamePanel.getLayoutX() + (brick.getxPosition() + j) * BRICK_SIZE);
+                    ghost.setLayoutY(gamePanel.getLayoutY() + (ghostY + i - 1) * BRICK_SIZE);
+                }
+            }
         }
     }
 

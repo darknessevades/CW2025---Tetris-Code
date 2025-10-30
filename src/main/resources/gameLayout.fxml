@@ -73,6 +73,10 @@
                     </center>
                 </BorderPane>
 
+                <!-- Ghost Piece Layer  -->
+                <Pane fx:id="ghostPane"
+                      mouseTransparent="true"/>
+
                 <!-- Falling Brick Panel -->
                 <GridPane fx:id="brickPanel"
                           vgap="1"

@@ -25,10 +25,10 @@ public class SimpleBoard implements Board {
     private int linesUntilNextLevel = 10;
     private int totalLinesCleared = 0;
 
-    public SimpleBoard(int width, int height) {
-        this.width = width;
-        this.height = height;
-        currentGameMatrix = new int[width][height];
+    public SimpleBoard(int rows, int cols) {
+        this.width = cols;
+        this.height = rows;
+        currentGameMatrix = new int[rows][cols];
         brickGenerator = new RandomBrickGenerator();
         brickRotator = new BrickRotator();
         score = new Score();
@@ -143,6 +143,9 @@ public class SimpleBoard implements Board {
 
     @Override
     public ViewData getViewData() {
+
+        int ghostY = getGhostPosition();
+
         // Used the stored nextBrick instead of generating a new one
         int[][] nextPieceData = (nextBrick != null)
                 ? nextBrick.getShapeMatrix().get(0)  // Default rotation of next piece
@@ -152,8 +155,8 @@ public class SimpleBoard implements Board {
                 brickRotator.getCurrentShape(),
                 (int) currentOffset.getX(),
                 (int) currentOffset.getY(),
-                nextPieceData  // Show actual next piece.
-
+                nextPieceData,
+                ghostY  // Add ghost position
         );
     }
 
@@ -190,7 +193,7 @@ public class SimpleBoard implements Board {
 
     @Override
     public void newGame() {
-        currentGameMatrix = new int[width][height];
+        currentGameMatrix = new int[height][width];
         score.reset();
         createNewBrick();
         // Reset next brick for new game
@@ -205,4 +208,24 @@ public class SimpleBoard implements Board {
     public int getTotalLines() {
         return totalLinesCleared;
     }
+
+    // Calculate ghost piece location
+
+    public int getGhostPosition() {
+        int ghostY = (int) currentOffset.getY();
+
+        // The actual bottom row is at index 24 (the 25th row)
+        while (ghostY < 24) {  // Not height-1, but the actual last row index
+            if (MatrixOperations.intersect(currentGameMatrix,
+                    brickRotator.getCurrentShape(),
+                    (int) currentOffset.getX(),
+                    ghostY + 1)) {
+                break;
+            }
+            ghostY++;
+        }
+
+        return ghostY;
+    }
+
 }
