@@ -215,9 +215,10 @@ public class GuiController implements Initializable {
                 ghost.setFill(Color.WHITE);
                 ghost.setOpacity(0.4);  // Semi-transparent
                 ghost.setStroke(Color.WHITE);
-                ghost.setStrokeWidth(1);
+                ghost.setStrokeWidth(0.5);
+                ghost.setArcHeight(9);  // Rounded corners like normal bricks
+                ghost.setArcWidth(9);   // Rounded corners like normal bricks
                 ghostRectangles[i][j] = ghost;
-                ghostPane.getChildren().add(ghost);  // Will position later
             }
         }
     }
@@ -339,27 +340,21 @@ public class GuiController implements Initializable {
         int[][] shape = brick.getBrickData();
         int ghostY = brick.getGhostYPosition();
 
-        // Clear all ghost rectangles first
+        // Remove old ghost from grid
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                ghostRectangles[i][j].setVisible(false);
+                gamePanel.getChildren().remove(ghostRectangles[i][j]);
             }
         }
 
-        // Don't draw ghost if it's at the same position as the current piece
-        if (ghostY <= brick.getyPosition()) {
-            return;
-        }
-
+        // Add ghost at new position using GridPane's own positioning
         for (int i = 0; i < shape.length && i < 4; i++) {
             for (int j = 0; j < shape[i].length && j < 4; j++) {
                 if (shape[i][j] != 0) {
                     Rectangle ghost = ghostRectangles[i][j];
                     ghost.setVisible(true);
-                    // The positioning calculation needs to account for the game panel offset
-                    // and the fact that the first 2 rows are hidden
-                    ghost.setLayoutX(gamePanel.getLayoutX() + (brick.getxPosition() + j) * BRICK_SIZE);
-                    ghost.setLayoutY(gamePanel.getLayoutY() + (ghostY + i - 1) * BRICK_SIZE);
+                    // Use GridPane.add just like the regular pieces
+                    gamePanel.add(ghost, brick.getxPosition() + j, ghostY + i - 2);
                 }
             }
         }

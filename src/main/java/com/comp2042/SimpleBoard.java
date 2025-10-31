@@ -214,13 +214,19 @@ public class SimpleBoard implements Board {
     public int getGhostPosition() {
         int ghostY = (int) currentOffset.getY();
 
-        // The actual bottom row is at index 24 (the 25th row)
-        while (ghostY < 24) {  // Not height-1, but the actual last row index
-            if (MatrixOperations.intersect(currentGameMatrix,
+        // Use the exact same logic as moveBrickDown()
+        int[][] tempMatrix = MatrixOperations.copy(currentGameMatrix);
+
+        // Keep moving down using the same collision detection as regular pieces
+        while (ghostY < 25) {  // Go all the way to the limit
+            // Check if moving to ghostY + 1 would cause collision (same as moveBrickDown)
+            boolean conflict = MatrixOperations.intersect(tempMatrix,
                     brickRotator.getCurrentShape(),
                     (int) currentOffset.getX(),
-                    ghostY + 1)) {
-                break;
+                    ghostY + 1);
+
+            if (conflict) {
+                break;  // Stop here - this is where the piece would land
             }
             ghostY++;
         }
