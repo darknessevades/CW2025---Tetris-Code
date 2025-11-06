@@ -57,6 +57,17 @@
                               style="-fx-border-color: #555; -fx-border-width: 2; -fx-background-color: #1a1a1a; -fx-padding: 5;">
                     </GridPane>
                 </VBox>
+
+                <VBox spacing="3" style="-fx-padding: 20 0 0 0;">
+                    <Label text="CONTROLS" style="-fx-text-fill: #888; -fx-font-size: 15; -fx-font-weight: bold;"/>
+                    <Label text="← → Move" style="-fx-text-fill: #666; -fx-font-size: 11;"/>
+                    <Label text="↑ Rotate" style="-fx-text-fill: #666; -fx-font-size: 11;"/>
+                    <Label text="↓ Fall Faster" style="-fx-text-fill: #666; -fx-font-size: 11;"/>
+                    <Label text="SPACE Hard Drop" style="-fx-text-fill: #666; -fx-font-size: 11;"/>
+                    <Label text="P Pause Game" style="-fx-text-fill: #666; -fx-font-size: 11;"/>
+                    <Label text="N New Game" style="-fx-text-fill: #666; -fx-font-size: 11;"/>
+                </VBox>
+
             </VBox>
         </left>
 

@@ -351,10 +351,14 @@ public class GuiController implements Initializable {
         for (int i = 0; i < shape.length && i < 4; i++) {
             for (int j = 0; j < shape[i].length && j < 4; j++) {
                 if (shape[i][j] != 0) {
-                    Rectangle ghost = ghostRectangles[i][j];
-                    ghost.setVisible(true);
-                    // Use GridPane.add just like the regular pieces
-                    gamePanel.add(ghost, brick.getxPosition() + j, ghostY + i - 2);
+                    int gridRow = ghostY + i - 2;
+
+                    // FIX: Only add if row index is valid (>= 0)
+                    if (gridRow >= 0) {
+                        Rectangle ghost = ghostRectangles[i][j];
+                        ghost.setVisible(true);
+                        gamePanel.add(ghost, brick.getxPosition() + j, gridRow);
+                    }
                 }
             }
         }
