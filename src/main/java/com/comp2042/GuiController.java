@@ -31,7 +31,7 @@ public class GuiController implements Initializable {
 
     // This class is the UI controller that handles all visual rendering and incoming user input.
 
-    private static final int BRICK_SIZE = 20;
+    private static final int BRICK_SIZE = 28;
 
     @FXML
     private GridPane gamePanel; // Game board grid
@@ -230,7 +230,7 @@ public class GuiController implements Initializable {
             nextPieceRectangles = new Rectangle[4][4]; // Max size for any piece
             for (int i = 0; i < 4; i++) {
                 for (int j = 0; j < 4; j++) {
-                    Rectangle rectangle = new Rectangle(BRICK_SIZE * 0.8, BRICK_SIZE * 0.8);
+                    Rectangle rectangle = new Rectangle(BRICK_SIZE * 0.7, BRICK_SIZE * 0.7);
                     rectangle.setFill(Color.TRANSPARENT);
                     nextPieceRectangles[i][j] = rectangle;
                     nextBrickPanel.add(rectangle, j, i);
@@ -325,7 +325,7 @@ public class GuiController implements Initializable {
         if (isPause.getValue() == Boolean.FALSE) {
             updateGhostPiece(brick);
             brickPanel.setLayoutX(gamePanel.getLayoutX() + brick.getxPosition() * brickPanel.getVgap() + brick.getxPosition() * BRICK_SIZE);
-            brickPanel.setLayoutY(-42 + gamePanel.getLayoutY() + brick.getyPosition() * brickPanel.getHgap() + brick.getyPosition() * BRICK_SIZE);
+            brickPanel.setLayoutY(-60 + gamePanel.getLayoutY() + brick.getyPosition() * brickPanel.getHgap() + brick.getyPosition() * BRICK_SIZE);
             for (int i = 0; i < brick.getBrickData().length; i++) {
                 for (int j = 0; j < brick.getBrickData()[i].length; j++) {
                     setRectangleData(brick.getBrickData()[i][j], rectangles[i][j]);

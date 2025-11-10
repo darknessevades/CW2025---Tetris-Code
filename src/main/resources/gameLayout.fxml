@@ -9,10 +9,10 @@
 <!-- Root StackPane to allow overlay -->
 <StackPane xmlns:fx="http://javafx.com/fxml"
            fx:controller="com.comp2042.GuiController"
-           prefWidth="600"
-           prefHeight="650"
-           maxWidth="600"
-           maxHeight="650">
+           prefWidth="500"
+           prefHeight="850"
+           maxWidth="500"
+           maxHeight="850">
 
     <!-- Main Game Layout -->
     <BorderPane style="-fx-background-color: #1a1a1a;">
@@ -21,7 +21,7 @@
         <left>
             <VBox fx:id="statsPanel"
                   spacing="20"
-                  prefWidth="120"
+                  prefWidth="180"
                   style="-fx-padding: 20; -fx-background-color: #2a2a2a; -fx-border-color: #444; -fx-border-width: 0 2 0 0;">
 
                 <VBox spacing="5">
@@ -42,12 +42,12 @@
                 <VBox spacing="5">
                     <Label text="SCORE" style="-fx-text-fill: #888; -fx-font-size: 12; -fx-font-weight: bold;"/>
                     <Label fx:id="scoreLabel"
-                           text="Score: 0"
+                           text="0"
                            style="-fx-text-fill: white; -fx-font-size: 15; -fx-font-weight: bold;"/>
                 </VBox>
 
                 <!-- Next Piece Preview -->
-                <VBox spacing="5">
+                <VBox spacing="10">
                     <Label text="NEXT" style="-fx-text-fill: #888; -fx-font-size: 12; -fx-font-weight: bold;"/>
                     <GridPane fx:id="nextBrickPanel"
                               hgap="1"
@@ -59,13 +59,13 @@
                 </VBox>
 
                 <VBox spacing="3" style="-fx-padding: 20 0 0 0;">
-                    <Label text="CONTROLS" style="-fx-text-fill: #888; -fx-font-size: 15; -fx-font-weight: bold;"/>
-                    <Label text="← → Move" style="-fx-text-fill: #666; -fx-font-size: 11;"/>
-                    <Label text="↑ Rotate" style="-fx-text-fill: #666; -fx-font-size: 11;"/>
-                    <Label text="↓ Fall Faster" style="-fx-text-fill: #666; -fx-font-size: 11;"/>
-                    <Label text="SPACE Hard Drop" style="-fx-text-fill: #666; -fx-font-size: 11;"/>
-                    <Label text="P Pause Game" style="-fx-text-fill: #666; -fx-font-size: 11;"/>
-                    <Label text="N New Game" style="-fx-text-fill: #666; -fx-font-size: 11;"/>
+                    <Label text="CONTROLS" style="-fx-text-fill: white; -fx-font-size: 15; -fx-font-weight: bold;"/>
+                    <Label text="← → Move" style="-fx-text-fill: white; -fx-font-size: 11;"/>
+                    <Label text="↑ Rotate" style="-fx-text-fill: white; -fx-font-size: 11;"/>
+                    <Label text="↓ Fall Faster" style="-fx-text-fill: white; -fx-font-size: 11;"/>
+                    <Label text="SPACE Hard Drop" style="-fx-text-fill: white; -fx-font-size: 11;"/>
+                    <Label text="P Pause Game" style="-fx-text-fill: white; -fx-font-size: 11;"/>
+                    <Label text="N New Game" style="-fx-text-fill: white; -fx-font-size: 11;"/>
                 </VBox>
 
             </VBox>
@@ -73,7 +73,7 @@
 
         <!-- Center Area - Game Board -->
         <center>
-            <Pane prefWidth="250" prefHeight="600">
+            <Pane prefWidth="400" prefHeight="800">
                 <!-- Game Board Background -->
                 <BorderPane styleClass="gameBoard" fx:id="gameBoard">
                     <center>
