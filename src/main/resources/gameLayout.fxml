@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.comp2042.GameOverPanel?>
+<?import com.comp2042.view.panel.GameOverPanel?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.Group?>
 <?import javafx.scene.layout.*?>
@@ -8,7 +8,7 @@
 
 <!-- Root StackPane to allow overlay -->
 <StackPane xmlns:fx="http://javafx.com/fxml"
-           fx:controller="com.comp2042.GuiController"
+           fx:controller="com.comp2042.view.gui.GuiController"
            prefWidth="500"
            prefHeight="850"
            maxWidth="500"
