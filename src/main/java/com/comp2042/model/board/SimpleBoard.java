@@ -20,7 +20,7 @@ public class SimpleBoard implements Board {
 
     private static final int DEFAULT_SPAWN_X = 4;
     private static final int DEFAULT_SPAWN_Y = 0;
-    private static final int LINES_PER_LEVEL = 10;
+    private static final int LINES_PER_LEVEL = 3;
     private static final int DANGER_ZONE_ROWS = 2;
     private static final int EMPTY_CELL = 0;
 

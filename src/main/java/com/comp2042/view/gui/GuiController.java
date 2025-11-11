@@ -47,7 +47,7 @@ public class GuiController implements Initializable {
     private static final double GHOST_OPACITY = 0.4;
     private static final int INITIAL_SPEED_MS = 400;
     private static final int BASE_SPEED_MS = 800;
-    private static final int SPEED_DECREASE_PER_LEVEL = 50;
+    private static final int SPEED_DECREASE_PER_LEVEL = 100;
     private static final int MIN_SPEED_MS = 100;
     private static final int LEVEL_UP_NOTIFICATION_OFFSET_Y = 60;
 
@@ -339,6 +339,8 @@ public class GuiController implements Initializable {
         ));
         timeLine.setCycleCount(Timeline.INDEFINITE);
         timeLine.play();
+
+        updateGameSpeed();
     }
 
     private void updateBrickPosition(ViewData brick) {
