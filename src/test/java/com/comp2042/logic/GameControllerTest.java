@@ -83,18 +83,22 @@ class GameControllerTest {
     @Test
     @DisplayName("Should stop at left wall")
     void testLeftWallCollision() {
-        // Move left 20 times (definitely enough to hit wall)
-        ViewData finalPosition = null;
-        for (int i = 0; i < 20; i++) {
-            finalPosition = gameController.onLeftEvent(
+        // Move left 50 times (definitely enough to hit wall)
+        for (int i = 0; i < 50; i++) {
+            gameController.onLeftEvent(
                     new MoveEvent(EventType.LEFT, EventSource.USER)
             );
         }
 
-        // X position should never be negative
+        // Get final position
+        ViewData finalPosition = gameController.onLeftEvent(
+                new MoveEvent(EventType.LEFT, EventSource.USER)
+        );
+
+        // Simple check: X should not be negative
         int finalX = finalPosition.getxPosition();
-        assertTrue(finalX >= 0,
-                "Brick should not go past left wall");
+        assertTrue(finalX >= 0 && finalX < 10,
+                "X position should be valid (0-9), was: " + finalX);
     }
 
 
