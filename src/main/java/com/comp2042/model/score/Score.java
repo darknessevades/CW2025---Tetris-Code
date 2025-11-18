@@ -39,6 +39,15 @@ public final class Score {
     }
 
     /**
+     * Gets the current score value.
+     *
+     * @return the current score
+     */
+    public int getValue() {
+        return score.get();
+    }
+
+    /**
      * Resets the score to zero.
      */
     public void reset() {

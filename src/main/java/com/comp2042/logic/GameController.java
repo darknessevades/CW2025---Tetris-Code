@@ -89,6 +89,7 @@ public class GameController implements InputEventListener {
         totalLines = 0;
         previousLevel = 1;
         viewGuiController.refreshGameBackground(board.getBoardMatrix());
+        viewGuiController.updateLinesDisplay(0);
     }
 
     /**
@@ -202,5 +203,14 @@ public class GameController implements InputEventListener {
     private void refreshView() {
         viewGuiController.refreshGameBackground(board.getBoardMatrix());
         viewGuiController.refreshBrick(board.getViewData());
+    }
+
+    /**
+     * Gets the game board for J-Unit testing purposes).
+     *
+     * @return the game board.
+     */
+    public Board getBoard() {
+        return board;
     }
 }

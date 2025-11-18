@@ -47,14 +47,6 @@ public class GameOverPanel extends BorderPane {
         updateGameOverLabel(wasForced);
     }
 
-    /**
-     * Sets the final score with default game over message.
-     *
-     * @param score is the final score to display.
-     */
-    public void setFinalScore(String score) {
-        setFinalScore(score, false);
-    }
 
     private Label createGameOverLabel() {
         Label label = new Label("GAME OVER");
