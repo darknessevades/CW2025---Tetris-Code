@@ -4,6 +4,10 @@ https://github.com/darknessevades/CW2025---Tetris-Code
 
 
 
+
+
+
+
 ## Compilation Instructions
 
 1. Clone or download the project from the above GitHub repository.
@@ -25,6 +29,10 @@ https://github.com/darknessevades/CW2025---Tetris-Code
 6. If starting the program via Maven, dependencies are defined in the `pom.xml` file.
 
 7. Run the program using the Main class: `com.comp2042.Main`
+
+
+
+
 
 
 
@@ -65,6 +73,10 @@ Helper class to calculate brick bounds for boundary detections.
 
 
 
+
+
+
+
 ## Modified Java Classes
 
 ### RandomBrickGenerator.java
@@ -80,12 +92,16 @@ Helper class to calculate brick bounds for boundary detections.
 
 
 
+
+
 ### BrickRotator.java
 **Location:** `com.comp2042.logic.rotation.BrickRotator`
 
 - Modified the location of the class to a new package (`com.comp2042` to `com.comp2042.logic.rotation`)
 - Import statement updated: `logic.bricks.Brick` to `model.bricks.Brick`
 - Simplified the code in `getNextShape()` method
+
+
 
 
 ### GameController.java
@@ -110,6 +126,8 @@ Helper class to calculate brick bounds for boundary detections.
 
 
 
+
+
 ### GameOverPanel.java
 **Location:** `com.comp2042.view.panel.GameOverPanel`
 
@@ -125,6 +143,8 @@ Helper class to calculate brick bounds for boundary detections.
   - `updateGameOverLabel(boolean)` - Updates label based on game end type
 - Now displays score and restart instructions; old version did not show anything as it was just a label
 - Layout improved with VBox and proper alignment
+
+
 
 
 
@@ -158,6 +178,8 @@ Helper class to calculate brick bounds for boundary detections.
 
 
 
+
+
 ### Main.java
 **Location:** `com.comp2042.Main`
 
@@ -169,6 +191,8 @@ Helper class to calculate brick bounds for boundary detections.
 - Better variable naming (`c` to `guiController`)
 - Added window configuration: `setResizable(false)`, `sizeToScene()`, `centerOnScreen()`
 - Import updates for new package locations (`logic.GameController`, `view.gui.GuiController`)
+
+
 
 
 
@@ -192,6 +216,8 @@ Helper class to calculate brick bounds for boundary detections.
 
 
 
+
+
 ### NotificationPanel.java
 **Location:** `com.comp2042.view.panel.NotificationPanel`
 
@@ -206,6 +232,8 @@ Helper class to calculate brick bounds for boundary detections.
 - Changed translate animation: `setToY()` → `setByY()` (now relative positioning)
 - Removed unused `Effect` variable; directly uses `new Glow()` instead
 - Replaced anonymous class with lambda expression in `setOnFinished()`
+
+
 
 
 
@@ -255,7 +283,13 @@ Helper class to calculate brick bounds for boundary detections.
 
 
 
+
+
+
+
 ## Unexpected Problems
+
+
 
 ### Problem 1: Ghost Piece Not Previewing Piece Drop Location Correctly
 
@@ -267,6 +301,8 @@ Added an `updateGhostPiece()` method call in the `refreshBrick()` method to upda
 
 
 
+
+
 ### Problem 2: New Pieces Spawning After Game Ended
 
 **Issue:**  
@@ -274,6 +310,8 @@ When game is over due to the game board being filled with pieces and the danger 
 
 **Fix:**  
 A game over check is implemented in the `onDownEvent()` method in the `GameController` class. Boolean values are used to check if the game over flag is set to true, and if true the game board will stop updating piece locations, essentially freezing the game. The timer is then stopped to prevent automatic piece dropping, and the current brick that is about to be dropped will be hidden. This will create the effect that no pieces will be spawning when game is over.
+
+
 
 
 
