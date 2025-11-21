@@ -4,7 +4,7 @@ https://github.com/darknessevades/CW2025---Tetris-Code
 
 
 
-
+---
 
 
 
@@ -32,7 +32,7 @@ https://github.com/darknessevades/CW2025---Tetris-Code
 
 
 
-
+---
 
 
 
@@ -63,6 +63,8 @@ Added a restart function in game that resets the game and shows the score for th
 Improved the score system by creating a score panel that shows the score of the player. Also added score bonuses for increasing levels and number of lines cleared at once.
 
 
+---
+
 
 ## New Java Classes
 
@@ -73,7 +75,7 @@ Helper class to calculate brick bounds for boundary detections.
 
 
 
-
+---
 
 
 
@@ -91,7 +93,7 @@ Helper class to calculate brick bounds for boundary detections.
   - `getRandomBrick()` - Gets a random brick from pool
 
 
-
+---
 
 
 ### BrickRotator.java
@@ -101,7 +103,7 @@ Helper class to calculate brick bounds for boundary detections.
 - Import statement updated: `logic.bricks.Brick` to `model.bricks.Brick`
 - Simplified the code in `getNextShape()` method
 
-
+---
 
 
 ### GameController.java
@@ -125,7 +127,7 @@ Helper class to calculate brick bounds for boundary detections.
 - `createNewGame()` now resets level and lines
 
 
-
+---
 
 
 ### GameOverPanel.java
@@ -145,7 +147,7 @@ Helper class to calculate brick bounds for boundary detections.
 - Layout improved with VBox and proper alignment
 
 
-
+---
 
 
 ### GuiController.java
@@ -177,7 +179,7 @@ Helper class to calculate brick bounds for boundary detections.
 - Better keyboard handling and code organization
 
 
-
+---
 
 
 ### Main.java
@@ -193,7 +195,7 @@ Helper class to calculate brick bounds for boundary detections.
 - Import updates for new package locations (`logic.GameController`, `view.gui.GuiController`)
 
 
-
+---
 
 
 ### MatrixOperations.java
@@ -215,7 +217,7 @@ Helper class to calculate brick bounds for boundary detections.
 - Better variable naming (`tmp` → `updatedMatrix`, `newRows` → `remainingRows`, `myInt` → `copy`)
 
 
-
+---
 
 
 ### NotificationPanel.java
@@ -234,7 +236,7 @@ Helper class to calculate brick bounds for boundary detections.
 - Replaced anonymous class with lambda expression in `setOnFinished()`
 
 
-
+---
 
 
 ### SimpleBoard.java
@@ -273,6 +275,8 @@ Helper class to calculate brick bounds for boundary detections.
   - `calculateGhostPosition()` - Calculates ghost piece Y position
 
 
+---
+
 
 ### Score.java
 **Location:** `com.comp2042.model.score.Score`
@@ -283,7 +287,7 @@ Helper class to calculate brick bounds for boundary detections.
 
 
 
-
+---
 
 
 
@@ -300,7 +304,7 @@ The ghost piece (pieces that preview the drop location of a Tetromino) was only 
 Added an `updateGhostPiece()` method call in the `refreshBrick()` method to update ghost position. Also added a `calculateGhostPosition()` method in the `SimpleBoard` class to ensure the ghost piece locations are always accurate and will not overlap with any existing Tetrominoes.
 
 
-
+---
 
 
 ### Problem 2: New Pieces Spawning After Game Ended
@@ -312,7 +316,7 @@ When game is over due to the game board being filled with pieces and the danger 
 A game over check is implemented in the `onDownEvent()` method in the `GameController` class. Boolean values are used to check if the game over flag is set to true, and if true the game board will stop updating piece locations, essentially freezing the game. The timer is then stopped to prevent automatic piece dropping, and the current brick that is about to be dropped will be hidden. This will create the effect that no pieces will be spawning when game is over.
 
 
-
+---
 
 
 ### Problem 3: Tetromino Drop Speed Decreased on Level Up
@@ -323,3 +327,4 @@ As per the current level system of the game, the drop speed of a piece will incr
 **Fix:**  
 The `startGameTimer()` method now calls the `updateGameSpeed()` method at the start to avoid mismatch issues. The `SPEED_DECREASE_PER_LEVEL` variable is also increased to show a more noticeable drop speed for the pieces.
 
+---
