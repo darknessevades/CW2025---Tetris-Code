@@ -90,6 +90,7 @@ public class GameController implements InputEventListener {
         previousLevel = 1;
         viewGuiController.refreshGameBackground(board.getBoardMatrix());
         viewGuiController.updateLinesDisplay(0);
+        viewGuiController.resetGameSpeed();
     }
 
     /**

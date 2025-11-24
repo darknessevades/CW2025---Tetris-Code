@@ -592,6 +592,11 @@ public class GuiController implements Initializable {
         timeLine.play();
     }
 
+    public void resetGameSpeed() {
+        this.level = 1;
+        updateGameSpeed();
+    }
+
     private void forceGameOver() {
         stopGame();
         showGameOverScreen(true);
