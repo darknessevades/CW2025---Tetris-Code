@@ -8,7 +8,7 @@ https://github.com/darknessevades/CW2025---Tetris-Code
 
 
 
-## Compilation Instructions
+## Compilation Instructions 
 
 1. Clone or download the project from the above GitHub repository.
 
@@ -31,6 +31,17 @@ https://github.com/darknessevades/CW2025---Tetris-Code
 7. Run the program using the Main class: `com.comp2042.Main`
 
 
+## Compilation Instructions (Maven)
+
+1. Clone or download the project from the above GitHub repository.
+
+2. Open the project in any JavaFX supported IDE (IntelliJ, Eclipse).
+
+3. IntelliJ should detect project as a Maven project. If not shown, right click the pom.xml file and click "Build New Maven Project".
+
+4. Tap the Maven icon on the right row of the screen.
+
+5. Tap Plugins -> javafx -> javafx:run to run the program.
 
 ---
 
